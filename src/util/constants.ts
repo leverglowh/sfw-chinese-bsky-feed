@@ -2,6 +2,7 @@ export const koLabels = [
   'porn',
   'sexual',
   'nudity',
+  '!warn',
   'graphic-media'
 ]
 
@@ -26,6 +27,9 @@ export const koKeywords = [
   "牛子",
   "屌照",
   "🍆",
+  "🥵",
+  "骚狗",
+  "野裸",
   // simplified zh
   "打飞机",
   "撸管",
@@ -40,6 +44,8 @@ export const koKeywords = [
   "骚货",
   "鸡巴",
   "鸡吧",
+  "发情",
+  "异域",
   //  traditional zh
   "打飛機",
   "擼管",
@@ -54,6 +60,8 @@ export const koKeywords = [
   "騷貨",
   "雞巴",
   "雞吧",
+  "發情",
+  "異域",
   //  english
   "exhib",
   "bigdick",
