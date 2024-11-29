@@ -2,6 +2,7 @@ import {
   OutputSchema as RepoEvent,
   isCommit,
 } from './lexicon/types/com/atproto/sync/subscribeRepos'
+import { koKeywords, koLabels, koTags } from './util/constants'
 import { FirehoseSubscriptionBase, getOpsByType } from './util/subscription'
 
 export class FirehoseSubscription extends FirehoseSubscriptionBase {
@@ -13,15 +14,33 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     // This logs the text of every post off the firehose.
     // Just for fun :)
     // Delete before actually using
-    for (const post of ops.posts.creates) {
-      console.log(post.record.text)
-    }
+    // for (const post of ops.posts.creates) {
+    //   console.log(post.record.text)
+    // }
 
     const postsToDelete = ops.posts.deletes.map((del) => del.uri)
     const postsToCreate = ops.posts.creates
       .filter((create) => {
-        // only alf-related posts
-        return create.record.text.toLowerCase().includes('alf')
+        const isChinese = create.record.langs?.includes('zh');
+        if (!isChinese) return false;
+
+        const isReply = create.record.reply !== undefined;
+        if (isReply) return false;
+
+        const isLabeledNSFW = (create.record.labels?.values as any[])?.some((label) => koLabels.includes(label.val))
+        if (isLabeledNSFW) return false;
+
+        const isNSFWContent =
+          koKeywords.some(keyw => create.record.text.includes(keyw)) ||
+          koTags.some(tag => create.record.text?.includes(`#${tag}`)) ||
+          koTags.some(tag => create.record.tags?.includes(tag))
+        if (isNSFWContent) return false;
+
+        // const isAccepted = isChinese && !isLabeledNSFW && !isNSFWContent && !isReply;
+        // if (isAccepted) {
+        //   console.log(create.record.text)
+        // }
+        return true;
       })
       .map((create) => {
         // map alf-related posts to a db row

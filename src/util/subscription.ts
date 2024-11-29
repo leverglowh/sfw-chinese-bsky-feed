@@ -11,7 +11,7 @@ import {
   OutputSchema as RepoEvent,
   isCommit,
 } from '../lexicon/types/com/atproto/sync/subscribeRepos'
-import { Database } from '../db'
+import { countPosts, Database, deleteOldRecords } from '../db'
 
 export abstract class FirehoseSubscriptionBase {
   public sub: Subscription<RepoEvent>
@@ -45,6 +45,14 @@ export abstract class FirehoseSubscriptionBase {
         // update stored cursor every 20 events or so
         if (isCommit(evt) && evt.seq % 20 === 0) {
           await this.updateCursor(evt.seq)
+        }
+
+        if (isCommit(evt) && evt.seq % 100000 === 0) {
+          // cleanup old records every 100k events
+          countPosts(this.db)
+          deleteOldRecords(this.db).then(_ => {
+            countPosts(this.db)
+          })
         }
       }
     } catch (err) {
