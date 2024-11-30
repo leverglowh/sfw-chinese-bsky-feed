@@ -76,6 +76,8 @@ export const koTags = [
   "男大",
   "母狗",
   "羞辱",
+  "小狗",
+  "男同",
   // simplified zh
   "做爱",
   "后入",
