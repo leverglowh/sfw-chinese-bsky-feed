@@ -5,7 +5,7 @@ import { DidResolver, MemoryCache } from '@atproto/identity'
 import { createServer } from './lexicon'
 import feedGeneration from './methods/feed-generation'
 import describeGenerator from './methods/describe-generator'
-import { createDb, Database, migrateToLatest, refreshBlockedUserList } from './db'
+import { createDb, Database, migrateToLatest, deleteOldRecords, refreshBlockedUserList } from './db'
 import { FirehoseSubscription } from './subscription'
 import { AppContext, Config } from './config'
 import wellKnown from './well-known'
@@ -63,10 +63,16 @@ export class FeedGenerator {
 
   async start(): Promise<http.Server> {
     await migrateToLatest(this.db)
-    await refreshBlockedUserList(this.db)
     this.firehose.run(this.cfg.subscriptionReconnectDelay)
     this.server = this.app.listen(this.cfg.port, this.cfg.listenhost)
     await events.once(this.server, 'listening')
+
+    // Clear old records every 60 seconds
+    setInterval(async () => {
+      deleteOldRecords(this.db)
+      refreshBlockedUserList(this.db)
+    }, 60 * 1000)
+
     return this.server
   }
 }

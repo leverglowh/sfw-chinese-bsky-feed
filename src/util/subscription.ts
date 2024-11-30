@@ -47,12 +47,6 @@ export abstract class FirehoseSubscriptionBase {
           if (evt.seq % 20 === 0) {
             await this.updateCursor(evt.seq)
           }
-
-          // cleanup old records and refresh block list every 100k events
-          if (evt.seq % 100000 === 0) {
-            deleteOldRecords(this.db)
-            refreshBlockedUserList(this.db)
-          }
         }
       }
     } catch (err) {
