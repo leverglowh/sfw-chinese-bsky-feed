@@ -21,9 +21,15 @@ migrations['001'] = {
       .addColumn('service', 'varchar', (col) => col.primaryKey())
       .addColumn('cursor', 'integer', (col) => col.notNull())
       .execute()
+    await db.schema
+      .createTable('blocked_authors')
+      .addColumn('did', 'varchar', (col) => col.primaryKey())
+      .execute()
+    await db.schema.alterTable('post').addColumn('authorDid', 'varchar').execute()
   },
   async down(db: Kysely<unknown>) {
     await db.schema.dropTable('post').execute()
     await db.schema.dropTable('sub_state').execute()
+    await db.schema.dropTable('blocked_authors').execute()
   },
 }

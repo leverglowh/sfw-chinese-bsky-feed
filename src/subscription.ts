@@ -48,6 +48,7 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
           uri: create.uri,
           cid: create.cid,
           indexedAt: new Date().toISOString(),
+          authorDid: create.author,
         }
       })
 

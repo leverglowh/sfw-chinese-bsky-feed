@@ -8,6 +8,13 @@ export const handler = async (ctx: AppContext, params: QueryParams) => {
   let builder = ctx.db
     .selectFrom('post')
     .selectAll()
+    .where(({ eb, or, not, exists, selectFrom }) => or([
+      not(exists(
+        selectFrom('blocked_authors')
+          .select('blocked_authors.did')
+          .whereRef('blocked_authors.did', '=', 'post.authorDid')
+      ))
+    ]))
     .orderBy('indexedAt', 'desc')
     .orderBy('cid', 'desc')
     .limit(params.limit)
