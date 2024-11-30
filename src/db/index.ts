@@ -23,9 +23,11 @@ export const deleteOldRecords = async (db: Database) => {
   const cutoffDate = new Date(new Date().valueOf() - (48 * 24 * 3600 * 1000));
 
   try {
-    await db.deleteFrom('post')
+    const res = await db.deleteFrom('post')
       .where('indexedAt', '<', cutoffDate.toISOString())
       .execute();
+    console.log(`Deleted ${res.length} old records`);
+    countPosts(db);
   } catch (error) {
     console.error('Error deleting old records:', error);
   }
@@ -57,13 +59,14 @@ export const refreshBlockedUserList = async (db: Database) => {
   })
   const blockedUsers = blocklistRes.data.items.map(i => i.subject.did);
 
-  await saveBlockedAuthors(db, blockedUsers)
+  const res = await saveBlockedAuthors(db, blockedUsers)
+  console.log(`Blocked users list refreshed, inserted ${res?.length}, total count: ${blockedUsers.length}`);
 }
 
 
 export const saveBlockedAuthors = async (db: Database, dids: string[]) => {
   try {
-    await db.insertInto('blocked_authors')
+    return await db.insertInto('blocked_authors')
       .values(dids.map(did => ({ did })))
       .onConflict((oc) => oc.doNothing())
       .execute();
