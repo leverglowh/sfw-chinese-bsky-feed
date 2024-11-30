@@ -40,11 +40,10 @@ jobs:
           cache-to: type=gha,mode=max
       - name: SCP docker compose to droplet
         uses: appleboy/scp-action@master
-        env:
-          USERNAME: ${{ secrets.DROPLET_USERNAME }}
-          HOST: ${{ secrets.DROPLET_HOST }}
-          KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         with:
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: './docker-compose.yml'
           target: '/root/bskyfeed'
       - name: Update container
