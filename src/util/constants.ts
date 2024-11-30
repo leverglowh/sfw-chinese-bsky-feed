@@ -48,6 +48,7 @@ export const koKeywords = [
   "鸡吧",
   "发情",
   "异域",
+  "网黄",
   //  traditional zh
   "打飛機",
   "擼管",
@@ -64,6 +65,7 @@ export const koKeywords = [
   "雞吧",
   "發情",
   "異域",
+  "網黄",
   //  english
   "exhib",
   "bigdick",
