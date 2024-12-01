@@ -70,11 +70,12 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     }
 
     if (authorsToBlock.length > 0) {
-      await this.db
+      const res = await this.db
         .insertInto('blocked_authors')
         .values(authorsToBlock)
         .onConflict((oc) => oc.doNothing())
         .execute()
+      console.log(`Blocked ${res[0].numInsertedOrUpdatedRows} authors`)
     }
   }
 }

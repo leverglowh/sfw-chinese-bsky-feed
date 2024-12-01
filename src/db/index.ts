@@ -26,7 +26,7 @@ export const deleteOldRecords = async (db: Database) => {
     const res = await db.deleteFrom('post')
       .where('indexedAt', '<', cutoffDate.toISOString())
       .execute();
-    console.log(`Deleted ${res.length} old records`);
+    console.log(`Deleted ${res[0].numDeletedRows} old records`);
     countTable(db, 'post');
   } catch (error) {
     console.error('Error deleting old records:', error);
