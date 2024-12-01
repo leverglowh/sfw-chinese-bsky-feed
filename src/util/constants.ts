@@ -82,6 +82,7 @@ export const koTags = [
   "巨乳",
   "射屏",
   "控射",
+  "原味",
   // simplified zh
   "做爱",
   "后入",
