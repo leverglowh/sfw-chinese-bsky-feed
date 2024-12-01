@@ -78,6 +78,7 @@ export const koTags = [
   "羞辱",
   "小狗",
   "男同",
+  "射屏",
   // simplified zh
   "做爱",
   "后入",
