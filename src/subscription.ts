@@ -17,7 +17,7 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     // for (const post of ops.posts.creates) {
     //   console.log(post.record.text)
     // }
-
+    const authorsToBlock: Array<{ did : string }> = []
     const postsToDelete = ops.posts.deletes.map((del) => del.uri)
     const postsToCreate = ops.posts.creates
       .filter((create) => {
@@ -34,7 +34,10 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
           koKeywords.some(keyw => create.record.text.includes(keyw)) ||
           koTags.some(tag => create.record.text?.includes(`#${tag}`)) ||
           koTags.some(tag => create.record.tags?.includes(tag))
-        if (isNSFWContent) return false;
+        if (isNSFWContent) {
+          authorsToBlock.push({ did: create.author })
+          return false;
+        }
 
         // const isAccepted = isChinese && !isLabeledNSFW && !isNSFWContent && !isReply;
         // if (isAccepted) {
@@ -62,6 +65,14 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
       await this.db
         .insertInto('post')
         .values(postsToCreate)
+        .onConflict((oc) => oc.doNothing())
+        .execute()
+    }
+
+    if (authorsToBlock.length > 0) {
+      await this.db
+        .insertInto('blocked_authors')
+        .values(authorsToBlock)
         .onConflict((oc) => oc.doNothing())
         .execute()
     }
