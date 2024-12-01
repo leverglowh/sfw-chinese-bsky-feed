@@ -60,7 +60,7 @@ export const refreshBlockedUserList = async (db: Database) => {
   const blockedUsers = blocklistRes.data.items.map(i => i.subject.did);
 
   const res = await saveBlockedAuthors(db, blockedUsers)
-  console.log(`Blocked users list refreshed, inserted ${res?.length}, total count: ${blockedUsers.length}`);
+  console.log(`Blocked users list refreshed, inserted ${res?.[0]?.numInsertedOrUpdatedRows}`);
 }
 
 
