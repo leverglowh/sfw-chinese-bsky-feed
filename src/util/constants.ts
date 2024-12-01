@@ -81,6 +81,7 @@ export const koTags = [
   "男同",
   "巨乳",
   "射屏",
+  "控射",
   // simplified zh
   "做爱",
   "后入",
@@ -97,10 +98,11 @@ export const koTags = [
   "偽娘",
   // english
   "bigdick",
-  "hugecock",
   "cock",
-  "rubber",
+  "dick",
+  "hugecock",
   "latex",
   "porn",
+  "rubber",
   "NSFW",
 ]
