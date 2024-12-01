@@ -72,10 +72,10 @@ export class FeedGenerator {
       deleteOldRecords(this.db)
     }, 60 * 1000)
 
-    // Refresh blocked user list every 60 minutes
+    // Refresh blocked user list every 30 minutes
     setInterval(async () => {
       refreshBlockedUserList(this.db)
-    }, 60 * 60 * 1000)
+    }, 30 * 60 * 1000)
 
     return this.server
   }
