@@ -96,10 +96,11 @@ export const koTags = [
   "偽娘",
   // english
   "bigdick",
-  "hugecock",
   "cock",
-  "rubber",
+  "dick"
+  "hugecock",
   "latex",
   "porn",
+  "rubber",
   "NSFW",
 ]
