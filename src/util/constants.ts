@@ -32,10 +32,11 @@ export const koKeywords = [
   "野裸",
   "自慰",
   "肏屄",
+  "偷情",
   // simplified zh
   "打飞机",
   "撸管",
-  "大鸡巴",
+  "大鸡",
   "淫荡",
   "辱骂",
   "胁迫",
@@ -52,7 +53,7 @@ export const koKeywords = [
   //  traditional zh
   "打飛機",
   "擼管",
-  "大雞巴",
+  "大雞",
   "淫蕩",
   "辱罵",
   "脅迫",
@@ -78,6 +79,7 @@ export const koTags = [
   "羞辱",
   "小狗",
   "男同",
+  "巨乳",
   "射屏",
   "控射",
   // simplified zh
@@ -97,7 +99,7 @@ export const koTags = [
   // english
   "bigdick",
   "cock",
-  "dick"
+  "dick",
   "hugecock",
   "latex",
   "porn",
