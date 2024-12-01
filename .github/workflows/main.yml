@@ -8,6 +8,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository_owner }}/sfw-chinese-bsky-feed
+  CONTAINER_NAME: sfw-chinese-feed
 
 jobs:
   build-and-push-image:
@@ -57,15 +58,15 @@ jobs:
             cd /root/bskyfeed
             
             # Login to ghcr.io
-            echo ${{ secrets.GITHUB_TOKEN }} | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
+            # echo ${{ secrets.GITHUB_TOKEN }} | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
             
             # Using existing .env on site
 
             docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
             
-            docker stop sfw-chinese-feed || true
-            docker rm sfw-chinese-feed || true
+            docker stop ${{ env.CONTAINER_NAME }} || true
+            docker rm ${{ env.CONTAINER_NAME }} || true
             
             docker compose up -d
             
-            docker ps | grep sfw-chinese-feed
+            docker ps | grep ${{ env.CONTAINER_NAME }}
