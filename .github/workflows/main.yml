@@ -58,7 +58,7 @@ jobs:
             cd /root/bskyfeed
             
             # Login to ghcr.io
-            # echo ${{ secrets.GITHUB_TOKEN }} | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
+            echo ${{ secrets.GITHUB_TOKEN }} | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
             
             # Using existing .env on site
 
