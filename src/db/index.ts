@@ -1,5 +1,5 @@
 import SqliteDb from 'better-sqlite3'
-import { Kysely, Migrator, SqliteDialect } from 'kysely'
+import { Kysely, Migrator, SqliteDialect, TableExpression } from 'kysely'
 import { DatabaseSchema } from './schema'
 import { migrationProvider } from './migrations'
 import { BskyAgent } from '@atproto/api'
@@ -27,15 +27,15 @@ export const deleteOldRecords = async (db: Database) => {
       .where('indexedAt', '<', cutoffDate.toISOString())
       .execute();
     console.log(`Deleted ${res.length} old records`);
-    countPosts(db);
+    countTable(db, 'post');
   } catch (error) {
     console.error('Error deleting old records:', error);
   }
 }
 
-export const countPosts = async (db: Database) => {
+export const countTable = async (db: Database, table: TableExpression<DatabaseSchema, never>) => {
   try {
-    const count = await db.selectFrom('post')
+    const count = await db.selectFrom(table)
       .select(db.fn.countAll().as('count'))
       .executeTakeFirstOrThrow();
     console.log('Posts in DB count: ', count.count);
