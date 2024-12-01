@@ -1,0 +1,36 @@
+name: DB Backup
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Daily at midnight
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up SSH agent
+        id: ssh-agent
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ secrets.DROPLET_HOST }}
+          username: ${{ secrets.DROPLET_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Create backup directory
+        run: |
+          ssh user@$REMOTE_HOST "mkdir -p /root/backup"
+
+      - name: Backup SQLite database
+        run: |
+          ssh user@$REMOTE_HOST "sqlite3 /root/bskyfeed/data/db.sqlite '.backup /root/backup/db-$(date +%Y%m%d).sqlite'"
+
+      - name: Remove old backups
+        run: |
+          ssh user@$REMOTE_HOST "find /root/backup -type f -name 'db-*.sqlite' -mtime +7 -exec rm {} \;"
+
+      - name: Clean up local backup file
+        run: ssh user@$REMOTE_HOST "rm /tmp/backup_file.sqlite"
