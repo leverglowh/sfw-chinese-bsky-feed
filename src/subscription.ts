@@ -21,32 +21,26 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     const postsToDelete = ops.posts.deletes.map((del) => del.uri)
     const postsToCreate = ops.posts.creates
       .filter((create) => {
-        const isChinese = create.record.langs?.includes('zh');
-        if (!isChinese) return false;
+        if (!create.record.langs?.includes('zh')) return false
 
-        const isReply = create.record.reply !== undefined;
-        if (isReply) return false;
+        if (create.record.reply !== undefined) return false
 
-        const isLabeledNSFW = (create.record.labels?.values as any[])?.some((label) => koLabels.includes(label.val))
-        if (isLabeledNSFW) return false;
+        if ((create.record.labels?.values as any[])?.some((label) => koLabels.includes(label.val))) return false
 
-        const isNSFWContent =
-          koKeywords.some(keyw => create.record.text.includes(keyw)) ||
-          koTags.some(tag => create.record.text?.includes(`#${tag}`)) ||
+        if (koKeywords.some(keyw => create.record.text.includes(keyw))) return false
+
+        const isNSFWTag = koTags.some(tag => create.record.text?.includes(`#${tag}`)) ||
           koTags.some(tag => create.record.tags?.includes(tag))
-        if (isNSFWContent) {
+        if (isNSFWTag) {
+          // console.log(`Blocked post with NSFW tag: ${create.record.text}, author: ${create.author}`);
           authorsToBlock.push({ did: create.author })
           return false;
         }
 
-        // const isAccepted = isChinese && !isLabeledNSFW && !isNSFWContent && !isReply;
-        // if (isAccepted) {
-        //   console.log(create.record.text)
-        // }
+        // console.log(create.record.text)
         return true;
       })
       .map((create) => {
-        // map alf-related posts to a db row
         return {
           uri: create.uri,
           cid: create.cid,
