@@ -19,7 +19,7 @@ export const migrateToLatest = async (db: Database) => {
 
 export const deleteOldRecords = async (db: Database) => {
   // Delete posts older than 48 hours
-  const cutoffDate = new Date(new Date().valueOf() - (48 * 24 * 3600 * 1000));
+  const cutoffDate = new Date(new Date().valueOf() - (48 * 3600 * 1000));
 
   try {
     const res = await db.deleteFrom('post')
