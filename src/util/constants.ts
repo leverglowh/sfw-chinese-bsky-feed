@@ -83,6 +83,7 @@ export const koTags = [
   "射屏",
   "控射",
   "原味",
+  "人妻",
   // simplified zh
   "做爱",
   "后入",
