@@ -88,6 +88,7 @@ export const koTags = [
   "后入",
   "男菩萨",
   "白袜",
+  "黑袜",
   "体育生",
   "伪娘",
   // traditional zh
@@ -95,6 +96,7 @@ export const koTags = [
   "後入",
   "男菩薩",
   "白襪",
+  "黑襪",
   "體育生",
   "偽娘",
   // english
