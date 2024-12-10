@@ -2,7 +2,6 @@ import SqliteDb from 'better-sqlite3'
 import { Kysely, Migrator, SqliteDialect, TableExpression } from 'kysely'
 import { DatabaseSchema } from './schema'
 import { migrationProvider } from './migrations'
-import { BskyAgent } from '@atproto/api'
 
 export const createDb = (location: string): Database => {
   return new Kysely<DatabaseSchema>({
@@ -46,19 +45,12 @@ export const countTable = async (db: Database, table: TableExpression<DatabaseSc
 }
 
 export const refreshBlockedUserList = async (db: Database) => {
-  if (!process.env.HANDLE || !process.env.PASSWORD || !process.env.BLOCK_LIST_URI) {
-    console.error('Missing environment variables for blocklist refresh');
-    return;
+  const blocklistRes: any = await fetch(`https://api.bsky.app/xrpc/app.bsky.graph.getList?list=${process.env.BLOCK_LIST_URI}`).then(res => res.json());
+  const blockedUsers = blocklistRes?.items?.map((item: any) => item.subject.did);
+  if (!blockedUsers) {
+    console.error('Error fetching blocked users list');
+    return
   }
-
-  const agent = new BskyAgent({ service: 'https://bsky.social' })
-  await agent.login({ identifier: process.env.HANDLE, password: process.env.PASSWORD })
-  
-  const blocklistRes = await agent.app.bsky.graph.getList({
-    list: process.env.BLOCK_LIST_URI
-  })
-  const blockedUsers = blocklistRes.data.items.map(i => i.subject.did);
-
   const res = await saveBlockedAuthors(db, blockedUsers)
   console.log(`Blocked users list refreshed, inserted ${res?.[0]?.numInsertedOrUpdatedRows}`);
 }
