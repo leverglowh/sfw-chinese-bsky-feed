@@ -7,6 +7,7 @@ export const koLabels = [
 ]
 
 export const koKeywords = [
+  "肏",
   "暴露",
   "露出",
   "工口",
@@ -28,7 +29,6 @@ export const koKeywords = [
   "屌照",
   "🍆",
   "🥵",
-  "骚狗",
   "野裸",
   "自慰",
   "肏屄",
@@ -45,6 +45,8 @@ export const koKeywords = [
   "鸡巴套子",
   "颜射",
   "骚货",
+  "骚逼",
+  "骚狗",
   "鸡巴",
   "鸡吧",
   "发情",
@@ -62,6 +64,8 @@ export const koKeywords = [
   "雞巴套子",
   "顏射",
   "騷貨",
+  "騷逼",
+  "騷狗",
   "雞巴",
   "雞吧",
   "發情",
@@ -84,6 +88,8 @@ export const koTags = [
   "控射",
   "原味",
   "人妻",
+  "夫妻",
+  "猛攻",
   // simplified zh
   "做爱",
   "后入",
