@@ -27,15 +27,15 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
 
         if ((create.record.labels?.values as any[])?.some((label) => koLabels.includes(label.val))) return false
 
-        if (koKeywords.some(keyw => create.record.text.includes(keyw))) return false
-
-        const isNSFWTag = koTags.some(tag => create.record.text?.includes(`#${tag}`)) ||
-          koTags.some(tag => create.record.tags?.includes(tag))
+        const allKoTags = [...koTags, ...koKeywords]
+        const isNSFWTag = allKoTags.some(tag => create.record.text?.includes(`#${tag}`) || create.record.tags?.includes(tag))
         if (isNSFWTag) {
           // console.log(`Blocked post with NSFW tag: ${create.record.text}, author: ${create.author}`);
           authorsToBlock.push({ did: create.author })
           return false;
         }
+
+        if (koKeywords.some(keyw => create.record.text.includes(keyw))) return false
 
         // console.log(create.record.text)
         return true;
