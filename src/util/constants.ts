@@ -8,6 +8,8 @@ export const koLabels = [
 
 export const koKeywords = [
   "肏",
+  "屌",
+  "晨勃",
   "暴露",
   "露出",
   "工口",
@@ -40,6 +42,7 @@ export const koKeywords = [
   "胖熊",
   "熊",
   // simplified zh
+  "天体",
   "打飞机",
   "撸管",
   "大鸡",
@@ -61,6 +64,7 @@ export const koKeywords = [
   "恋足",
   "绿帽",
   //  traditional zh
+  "天體",
   "打飛機",
   "擼管",
   "大雞",
@@ -104,6 +108,7 @@ export const koTags = [
   "黑袜",
   "体育生",
   "伪娘",
+  "大学生",
   // traditional zh
   "做愛",
   "後入",
@@ -112,6 +117,7 @@ export const koTags = [
   "黑襪",
   "體育生",
   "偽娘",
+  "大學生",
   // english
   "cock",
   "dick",
