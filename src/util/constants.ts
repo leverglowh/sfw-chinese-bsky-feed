@@ -31,6 +31,7 @@ export const koKeywords = [
   "屌照",
   "🍆",
   "🥵",
+  "裸体",
   "野裸",
   "自慰",
   "肏屄",
@@ -121,5 +122,6 @@ export const koTags = [
   "latex",
   "porn",
   "rubber",
+  "spanking",
   "NSFW",
 ]
