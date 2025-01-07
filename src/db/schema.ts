@@ -9,6 +9,7 @@ export type Post = {
   cid: string
   indexedAt: string
   authorDid: string
+  hasEmbed: number
 }
 
 export type SubState = {

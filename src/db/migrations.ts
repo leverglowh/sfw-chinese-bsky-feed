@@ -33,3 +33,12 @@ migrations['001'] = {
     await db.schema.dropTable('blocked_authors').execute()
   },
 }
+
+migrations['002'] = {
+  async up(db: Kysely<unknown>) {
+    await db.schema
+      .alterTable('post')
+      .addColumn('hasEmbed', 'integer', (col) => col.notNull().defaultTo(1))
+      .execute();
+  },
+};

@@ -37,7 +37,7 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
 
         if (koKeywords.some(keyw => create.record.text.includes(keyw))) return false
 
-        // console.log(create.record.text)
+        // console.log(`${create.record.text} - embed = ${create.record.embed ? 1 : 0}`);
         return true;
       })
       .map((create) => {
@@ -46,6 +46,7 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
           cid: create.cid,
           indexedAt: new Date().toISOString(),
           authorDid: create.author,
+          hasEmbed: create.record.embed ? 1 : 0,
         }
       })
 
