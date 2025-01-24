@@ -1,6 +1,7 @@
 name: DB Backup
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 0 * * *'  # Daily at midnight
 env:
@@ -24,6 +25,6 @@ jobs:
           script: |
             mkdir -p /root/backup
             # docker stop ${{ env.CONTAINER_NAME }} || true
-            sqlite3 /root/bskyfeed/data/db.sqlite '.backup '/root/backup/db-$(date +%Y%m%d).sqlite''
+            sqlite3 /root/bskyfeed/data/db.sqlite '.timeout 10000;' '.backup '/root/backup/db-$(date +%Y%m%d).sqlite''
             # docker start ${{ env.CONTAINER_NAME }} || true
             find /root/backup -type f -name 'db-*.sqlite' -mtime +7 -exec rm {} \;
