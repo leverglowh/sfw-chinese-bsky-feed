@@ -50,6 +50,10 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
         }
       })
 
+    process.nextTick(() => this.processDatabaseUpdates(postsToDelete, postsToCreate, authorsToBlock));
+  }
+  
+  async processDatabaseUpdates(postsToDelete, postsToCreate, authorsToBlock) {
     if (postsToDelete.length > 0) {
       await this.db
         .deleteFrom('post')
@@ -63,14 +67,16 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
         .onConflict((oc) => oc.doNothing())
         .execute()
     }
-
+  
     if (authorsToBlock.length > 0) {
-      const res = await this.db
+      this.db
         .insertInto('blocked_authors')
         .values(authorsToBlock)
         .onConflict((oc) => oc.doNothing())
         .execute()
-      console.log(`Blocked ${res[0].numInsertedOrUpdatedRows} authors`)
+        .then((res) => {
+          console.log(`Blocked ${res[0]?.numInsertedOrUpdatedRows ?? 0} authors`);
+        })
     }
   }
 }
