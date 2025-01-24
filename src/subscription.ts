@@ -25,6 +25,21 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
 
         if (create.record.reply !== undefined) return false
 
+        // console.log(`${create.record.text} - embed = ${create.record.embed ? 1 : 0}`);
+        return true;
+      })
+    this.processDatabaseUpdates(postsToDelete, postsToCreate, authorsToBlock);
+  }
+  
+  async processDatabaseUpdates(postsToDelete, postsToCreate, authorsToBlock) {
+    if (postsToDelete.length > 0) {
+      await this.db
+        .deleteFrom('post')
+        .where('uri', 'in', postsToDelete)
+        .execute()
+    }
+    if (postsToCreate.length > 0) {
+      const filteredPosts = postsToCreate.filter(create => {
         if ((create.record.labels?.values as any[])?.some((label) => koLabels.includes(label.val))) return false
 
         const allKoTags = [...koTags, ...koKeywords]
@@ -36,11 +51,8 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
         }
 
         if (koKeywords.some(keyw => create.record.text.includes(keyw))) return false
-
-        // console.log(`${create.record.text} - embed = ${create.record.embed ? 1 : 0}`);
-        return true;
-      })
-      .map((create) => {
+        return true
+      }).map((create) => {
         return {
           uri: create.uri,
           cid: create.cid,
@@ -50,20 +62,9 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
         }
       })
 
-    process.nextTick(() => this.processDatabaseUpdates(postsToDelete, postsToCreate, authorsToBlock));
-  }
-  
-  async processDatabaseUpdates(postsToDelete, postsToCreate, authorsToBlock) {
-    if (postsToDelete.length > 0) {
-      await this.db
-        .deleteFrom('post')
-        .where('uri', 'in', postsToDelete)
-        .execute()
-    }
-    if (postsToCreate.length > 0) {
       await this.db
         .insertInto('post')
-        .values(postsToCreate)
+        .values(filteredPosts)
         .onConflict((oc) => oc.doNothing())
         .execute()
     }
