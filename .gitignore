@@ -134,4 +134,7 @@ dist
 *.iml
 
 # db
-db.sqlite3
+db.sqlite*
+
+# macOS
+.DS_Store
