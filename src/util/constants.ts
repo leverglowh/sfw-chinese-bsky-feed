@@ -124,4 +124,6 @@ export const koTags = [
   "rubber",
   "spanking",
   "NSFW",
+  "1m",
+  "0s",
 ]
