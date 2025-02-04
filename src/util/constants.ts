@@ -85,6 +85,7 @@ export const koKeywords = [
 ]
 export const koTags = [
   "正太",
+  "正妹",
   "男大",
   "母狗",
   "羞辱",
