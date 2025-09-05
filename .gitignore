@@ -135,3 +135,7 @@ dist
 
 # db
 db.sqlite3
+db.sqlite
+
+# MacOS
+.DS_Store
