@@ -62,6 +62,7 @@ export const koKeywords = [
   "发情",
   "异域",
   "网黄",
+  "贞操锁",
   //  traditional zh
   "天體",
   "打飛機",
@@ -82,6 +83,7 @@ export const koKeywords = [
   "發情",
   "異域",
   "網黄",
+  "貞操鎖",
 ]
 export const koTags = [
   "正太",
